@@ -69,6 +69,5 @@
         "first_letter": "H",
         "level": 0
     }
-    ....
 ]
 ```
