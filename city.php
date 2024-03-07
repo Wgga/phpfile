@@ -19,10 +19,7 @@ if(strpos($_SERVER['CONTENT_TYPE'], 'application/json')!==FALSE){
 
 $model = new Model();
 
-if($_GET['method']=='getprovlist'){
-	$model->get_prov_list();
-	echo json_encode($model->list);
-}elseif($_POST['method']=='getcitylist'){
+if($_POST['method']=='getcitylist'){
 	$model->get_city_list();
 	echo json_encode($model->list);
 }

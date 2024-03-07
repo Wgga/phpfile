@@ -47,28 +47,28 @@ class Model{
 		$this->msg='';
 	}
 
-	public function get_prov_list(){
-		$this->list = [];
-		$sql = "SELECT city_name,city_code,parent_code,pinyin,first_letter,level FROM city_list WHERE level=0 ORDER BY first_letter ASC";
-		$result = mysqli_query($GLOBALS['mysqli'], $sql);
-		while($row=mysqli_fetch_assoc($result)) {
-			extract($row);
-			$this->list[$first_letter][] = $row;
-		}
-	}
-
 	public function get_city_list(){
 		$this->list = [];
 		$code = intval($_POST['code']);
 		$level = intval($_POST['level']);
+		if(in_array($code, [820000, 810000, 540000])){
+			return $this->list['msg'] = '此地址暂无法送达，请重新选择';
+		}
 		$sql = "SELECT city_name,city_code,parent_code,pinyin,first_letter,level FROM city_list WHERE level=$level AND parent_code=$code ORDER BY first_letter ASC";
 		$result = mysqli_query($GLOBALS['mysqli'], $sql);
+		$letters = [];
 		while($row=mysqli_fetch_assoc($result)) {
 			extract($row);
-			$first_char = getFirstCharter($city_name);
+			$this->list['items'][$first_letter][] = $row;
+			if (!in_array($first_letter, $letters)) {
+				$letters[] = $first_letter;
+			}
+			/* $first_char = getFirstCharter($city_name);
+			$row['$first_char'] = $first_char;
 			$sql2 = "UPDATE city_list SET first_letter='$first_char' WHERE city_code=$city_code AND first_letter=''";
-			mysqli_query($GLOBALS['mysqli'], $sql2);
-			$this->list[$first_letter][] = $row;
+			mysqli_query($GLOBALS['mysqli'], $sql2); */
 		}
+		$this->list['letters'] = $letters;
+		$this->list['msg'] = 'OK';
 	}
 }
