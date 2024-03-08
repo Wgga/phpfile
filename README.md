@@ -1,7 +1,8 @@
 # php后台接口文件
 
 #### 效果展示：
-https://github.com/Wgga/PluginCollect/demo/plugins.apk
+请前往以下链接下载APK文件查看效果
+https://github.com/Wgga/PluginCollect/tree/main/demo/plugins.apk
 
 ### 表情接口
 
