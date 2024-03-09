@@ -47,6 +47,11 @@ class Model{
 		$this->msg='';
 	}
 
+	/* $first_char = getFirstCharter($city_name);
+	$row['$first_char'] = $first_char;
+	$sql2 = "UPDATE city_list SET first_letter='$first_char' WHERE city_code=$city_code AND first_letter=''";
+	mysqli_query($GLOBALS['mysqli'], $sql2); */
+
 	public function get_city_list(){
 		$this->list = [];
 		$code = intval($_POST['code']);
@@ -63,10 +68,14 @@ class Model{
 			if (!in_array($first_letter, $letters)) {
 				$letters[] = $first_letter;
 			}
-			/* $first_char = getFirstCharter($city_name);
-			$row['$first_char'] = $first_char;
-			$sql2 = "UPDATE city_list SET first_letter='$first_char' WHERE city_code=$city_code AND first_letter=''";
-			mysqli_query($GLOBALS['mysqli'], $sql2); */
+		}
+		if ($level == 3) {
+			if (!in_array('Z', $letters)) {
+				$letters[] = 'Z';
+				$this->list['items']['Z'] = [];
+			}
+			$notselect = ['city_code' => '#', 'city_name' => '暂不选择', 'first_letter' => 'Z', 'level' => '3'];
+			array_push($this->list['items']['Z'], $notselect);
 		}
 		$this->list['letters'] = $letters;
 		$this->list['msg'] = 'OK';
